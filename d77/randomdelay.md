@@ -7,6 +7,6 @@ Felen är att:
 2. rad 19 och rad 20 ska innehålla  
    `randNumber = myexp2(random(2, 11));`  
    och inte  
-   `randNumber = myexp2(random(2, 10));`
+   `randNumber = myexp2(random(2, 10));`  
    Om man fixar fel 1 så kommer randNumber att få mellan 4 och 512, inte
    4 och 1024!
