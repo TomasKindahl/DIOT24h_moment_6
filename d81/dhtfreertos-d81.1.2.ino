@@ -61,7 +61,6 @@ void loop() {
 
 void loop_thread_func(void *pvParameters) {
     Serial.println("loop_thread_func started");
-    vTaskDelay(configTICK_RATE_HZ*1);
     for(;;) {
         Serial.print("T = ");
         Serial.print(temperature, 1);
