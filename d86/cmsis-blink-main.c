@@ -6,9 +6,7 @@
 #include <R7FA6M5BH.h>
 #endif
 
-// LED on Uno R4 Minima: P1.11
-// LED on Uno R4 WiFi: P1.02
-// Red LED on Portanta C33: P1.07
+// GPIO 8: P3.04
 #define LED_PORT_NUM 3
 #define LED_PIN_NUM 4
 
