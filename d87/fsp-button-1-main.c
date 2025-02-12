@@ -1,18 +1,37 @@
 #include "hal_data.h"
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
-#define LED    BSP_IO_PORT_03_PIN_04 // D8 på Arduino Uno R4 WiFi
+#define LED     BSP_IO_PORT_03_PIN_04  // D8 på Arduino Uno R4 WiFi
+#define BUTTON  BSP_IO_PORT_01_PIN_12  // D7 på Arduino Uno R4 WiFi
+
+int button_mode = 0;
 
 void hal_entry(void)
 {
     R_BSP_PinAccessEnable();
     R_IOPORT_PinCfg(&g_ioport_ctrl, LED, IOPORT_CFG_PORT_DIRECTION_OUTPUT);
+    R_IOPORT_PinCfg(&g_ioport_ctrl, BUTTON, IOPORT_CFG_PORT_DIRECTION_INPUT);
     while(true) 
     {
-        R_IOPORT_PinWrite(&g_ioport_ctrl, LED, BSP_IO_LEVEL_HIGH);
-        R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
-        R_IOPORT_PinWrite(&g_ioport_ctrl, LED, BSP_IO_LEVEL_LOW);
-        R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+        bsp_io_level_t button_value;
+        R_IOPORT_PinRead(&g_ioport_ctrl, BUTTON, &button_value);
+        if(button_value == BSP_IO_LEVEL_LOW)
+        {
+            button_mode = !button_mode;
+        }
+
+        if(button_mode)
+        {
+            R_IOPORT_PinWrite(&g_ioport_ctrl, LED, BSP_IO_LEVEL_HIGH);
+            R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+        }
+        else
+        {
+            R_IOPORT_PinWrite(&g_ioport_ctrl, LED, BSP_IO_LEVEL_HIGH);
+            R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+            R_IOPORT_PinWrite(&g_ioport_ctrl, LED, BSP_IO_LEVEL_LOW);
+            R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+        }
     }
 }
 
